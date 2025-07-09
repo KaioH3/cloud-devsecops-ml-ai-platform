@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: credit-risk-frontend-service
+  namespace: default
+  labels:
+    app: credit-risk-frontend
+    tier: frontend
+spec:
+  selector:
+    app: credit-risk-frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 5000
+    protocol: TCP
+  type: LoadBalancer
+  sessionAffinity: None

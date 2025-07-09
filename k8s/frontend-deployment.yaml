@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: credit-risk-frontend
+  namespace: default
+  labels:
+    app: credit-risk-frontend
+    tier: frontend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: credit-risk-frontend
+  template:
+    metadata:
+      labels:
+        app: credit-risk-frontend
+        tier: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: sa-saopaulo-1.ocir.io/YOUR_NAMESPACE/credit-risk-frontend:latest
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        env:
+        - name: API_URL
+          value: "http://credit-risk-api-service"
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      imagePullSecrets:
+      - name: oci-registry-secret
+      restartPolicy: Always

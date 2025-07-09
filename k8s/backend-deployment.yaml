@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: credit-risk-api
+  namespace: default
+  labels:
+    app: credit-risk-api
+    tier: backend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: credit-risk-api
+  template:
+    metadata:
+      labels:
+        app: credit-risk-api
+        tier: backend
+    spec:
+      containers:
+      - name: api
+        image: sa-saopaulo-1.ocir.io/YOUR_NAMESPACE/credit-risk-api:latest
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        env:
+        - name: PYTHONPATH
+          value: "/app"
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+      imagePullSecrets:
+      - name: oci-registry-secret
+      restartPolicy: Always

@@ -1,0 +1,10 @@
+# Substitua pelos seus valores reais
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaxxxxxxxx"
+user_ocid        = "ocid1.user.oc1..aaaaaaaaxxxxxxxx"
+fingerprint      = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+private_key_path = "~/.oci/oci_api_key.pem"
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaaaxxxxxxxx"
+ssh_public_key   = "ssh-rsa AAAAB3NzaC1yc2E... sua-chave-ssh-aqui"
+region           = "sa-saopaulo-1"
+project_name     = "ml-credit-risk"
+alert_recipients = ["seu-email@exemplo.com"]

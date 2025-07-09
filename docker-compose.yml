@@ -1,0 +1,31 @@
+services:
+  backend:
+    build: 
+      context: ./applications/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+    volumes:
+      - ./ml_models:/app/ml_models:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./applications/frontend  
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://backend:8000
+
+networks:
+  default:
+    driver: bridge

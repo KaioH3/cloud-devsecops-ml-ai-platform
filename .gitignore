@@ -1,0 +1,36 @@
+# ───────────────── Terraform ─────────────────
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.tfplan
+terraform.tfvars*           # ← cobre tfvars, tfvars.json, tfvars.prod etc.
+
+# ───────────────── Credenciais OCI ─────────────────
+.oci/                       # diretório inteiro
+*oci_api_key.pem*           # caso a PEM fique fora de ~/.oci
+
+# ───────────────── Variáveis de ambiente / secrets ─────────────────
+.env
+.env.*
+
+# ───────────────── Docker & Logs ─────────────────
+*.log
+docker-compose.override.yml
+
+# ───────────────── Python ─────────────────
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# ───────────────── IDE / SO ─────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
